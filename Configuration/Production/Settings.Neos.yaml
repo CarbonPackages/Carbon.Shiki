@@ -1,0 +1,9 @@
+Neos:
+  Flow:
+    log:
+      psr3:
+        'Neos\Flow\Log\PsrLoggerFactory':
+          'Carbon.Shiki:ShikiLogger':
+            default:
+              options:
+                severityThreshold: '%LOG_INFO%'

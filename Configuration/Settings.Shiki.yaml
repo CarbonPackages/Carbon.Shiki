@@ -1,0 +1,8 @@
+Carbon:
+  Shiki:
+    apiEndpoint: null
+    theme:
+      # https://shiki.style/themes
+      default: github-dark-dimmed
+      # Optional: If you want to use a different theme for dark mode
+      # dark: github-dark-default
