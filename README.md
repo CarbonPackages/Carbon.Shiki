@@ -93,6 +93,43 @@ Behavior:
 - Throws a Flow exception on API `4xx` responses.
 - Logs request success/failure to package logger.
 
+## JavaScript Highlighting
+
+In addition to the Fusion/Eel helper, this package also ships a JavaScript highlighter function.
+
+Use the compiled module from:
+
+- `Resources/Public/Modules/Main.js`
+
+The uncompiled source file is:
+
+- `Resources/Private/Main.js`
+
+and is compiled to the public module during the build step.
+
+Example usage:
+
+```js
+import { highlight } from "./Resources/Public/Modules/Main.js";
+
+const result = await highlight({
+  code: "const msg = 'Hello';",
+  lang: "javascript",
+  theme: "github-light",
+  themeDark: "github-dark",
+  cssClass: "shiki-block",
+});
+
+console.log(result.html);
+console.log(result.colors);
+```
+
+The function returns an object with:
+
+- `html`: highlighted HTML output
+- `colors`: detected foreground/background colors for default and dark theme
+- `code`: normalized source code string
+
 ## API Contract
 
 The package sends a `POST` request with JSON body:
