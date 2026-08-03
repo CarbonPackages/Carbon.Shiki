@@ -35,7 +35,7 @@ class ApiService
         ?string $defaultTheme = null,
         ?string $themeDark = null,
         ?string $cssClass = null,
-        ?string $url = null
+        ?string $url = null,
     ): array {
         $client = new Client();
         $endpoint = $this->configuration['apiEndpoint'];

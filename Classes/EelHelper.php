@@ -26,7 +26,7 @@ class EelHelper implements ProtectedContextAwareInterface
         ?string $defaultTheme = null,
         ?string $themeDark = null,
         ?string $cssClass = null,
-        ?string $url = null
+        ?string $url = null,
     ): array {
         if (!$code || !$lang) {
             return [];
