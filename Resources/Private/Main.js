@@ -9,13 +9,35 @@ const FusionLanguage = {
 let highlighter = null;
 let calledHighlighter = false;
 
-async function getHighlighter(theme, themeDark) {
+export async function highlight({ code, lang, theme, themeDark, cssClass }) {
+    code = code.trim();
+    await setHighlighter({ theme, themeDark });
+
+    if (lang === "neosfusion") {
+        lang = FusionLanguage;
+        await highlighter.loadLanguage("html-derivative");
+    }
+    await highlighter.loadLanguage(lang);
+
+    const html = await highlighter.codeToHtml(
+        code,
+        getThemeOptions({ lang, theme, themeDark, cssClass }),
+    );
+    const colors = {
+        default: getColors(theme),
+        dark: getColors(themeDark),
+    };
+
+    return { html, colors, code };
+}
+
+async function setHighlighter({ theme, themeDark }) {
     if (highlighter) {
         return highlighter;
     }
     if (calledHighlighter) {
         await wait(100);
-        return await getHighlighter();
+        return await setHighlighter({ theme, themeDark });
     }
     calledHighlighter = true;
     const options = {
@@ -30,9 +52,24 @@ async function getHighlighter(theme, themeDark) {
     return highlighter;
 }
 
-function getThemeOptions(theme, themeDark) {
+function getThemeOptions({ lang, theme, themeDark, cssClass }) {
+    const options = {
+        lang,
+    };
+
+    if (cssClass && typeof cssClass === "string") {
+        options.transformers = [
+            {
+                pre(node) {
+                    this.addClassToHast(node, cssClass);
+                },
+            },
+        ];
+    }
+
     if (themeDark) {
         return {
+            ...options,
             themes: {
                 light: theme,
                 dark: themeDark,
@@ -40,28 +77,9 @@ function getThemeOptions(theme, themeDark) {
         };
     }
     return {
+        ...options,
         theme,
     };
-}
-
-export async function highlight({ code, lang, theme, themeDark }) {
-    code = code.trim();
-    await getHighlighter(theme, themeDark);
-
-    if (lang === "neosfusion") {
-        lang = FusionLanguage;
-        await highlighter.loadLanguage("html-derivative");
-    }
-    await highlighter.loadLanguage(lang);
-
-    const options = { lang, ...getThemeOptions(theme, themeDark) };
-    const html = await highlighter.codeToHtml(code, options);
-    const colors = {
-        default: getColors(theme),
-        dark: getColors(themeDark),
-    };
-
-    return { html, colors, code };
 }
 
 function wait(milliseconds) {
