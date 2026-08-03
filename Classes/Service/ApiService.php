@@ -23,7 +23,8 @@ class ApiService
      * @param string $code
      * @param string $lang
      * @param string|null $defaultTheme
-     * @param string|null $darkTheme
+     * @param string|null $themeDark
+     * @param string|null $cssClass
      * @param string|null $url for debug
      * @return array
      * @throws Exception
@@ -33,6 +34,7 @@ class ApiService
         string $lang,
         ?string $defaultTheme = null,
         ?string $themeDark = null,
+        ?string $cssClass = null,
         ?string $url = null
     ): array {
         $client = new Client();
@@ -56,6 +58,7 @@ class ApiService
                     'lang' => $lang,
                     'theme' => $defaultTheme,
                     'themeDark' => $themeDark,
+                    'cssClass' => $cssClass,
                 ],
             ]);
             $result = json_decode($response->getBody(), true);

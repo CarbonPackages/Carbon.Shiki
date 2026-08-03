@@ -15,7 +15,8 @@ class EelHelper implements ProtectedContextAwareInterface
      * @param string $code
      * @param string $lang
      * @param string|null $defaultTheme
-     * @param string|null $darkTheme
+     * @param string|null $themeDark
+     * @param string|null $cssClass
      * @param string|null $url for debug
      * @return array
      */
@@ -24,12 +25,13 @@ class EelHelper implements ProtectedContextAwareInterface
         ?string $lang = null,
         ?string $defaultTheme = null,
         ?string $themeDark = null,
+        ?string $cssClass = null,
         ?string $url = null
     ): array {
         if (!$code || !$lang) {
             return [];
         }
-        return $this->apiService->compileShiki($code, $lang, $defaultTheme, $themeDark, $url);
+        return $this->apiService->compileShiki($code, $lang, $defaultTheme, $themeDark, $cssClass, $url);
     }
 
     /**
